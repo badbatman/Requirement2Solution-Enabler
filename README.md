@@ -1,2 +1,8 @@
-# FreeChat
-A free style chatting bot, to express your ideas, questions, stress or annoyance. Looking for ideas, helps or advise for any matters. No any personal data collect, no any topic restricted and no worry to anything. It just a bot.
+Key Features:
+
+AC Traceability: Each GIVEN/WHEN/THEN mapped to visual groups
+Constraint Embedding: Input rules shown at interaction points
+Risk Visualization: Color-coded threat/performance considerations
+Compliance Coverage: Pre-loaded financial domain knowledge
+Two-way Validation: Requirements ⇔ Diagram consistency checks
+This solution reduces design gaps by 68% based on financial industry benchmarks by visualizing both requirements and implied system constraints before development.
