@@ -1,0 +1,58 @@
+@startuml
+skinparam BackgroundColor #F0F0F0
+skinparam ParticipantPadding 20
+skinparam BoxPadding 15
+
+actor Customer
+participant MobileApp
+participant AuthService
+participant FraudDetector
+participant CoreBanking
+
+== Main Flow ==
+group AC1: High-Value Transfer
+  Customer -> MobileApp: Initiate transfer\n<color:blue>[Amount: >0, <50k USD]</color>
+  MobileApp -> AuthService: Verify limits
+  alt Amount > $10,000
+    AuthService --> MobileApp: "Approval Required"
+    MobileApp -> Customer: Manager approval prompt
+  else
+    AuthService -> CoreBanking: Process transfer
+  end
+end
+
+group AC2: Biometric Auth
+  Customer -> MobileApp: 🔒 BiometricData\n<color:green>[AES-GCM-256]</color>
+  MobileApp -> AuthService: Validate ISO/IEC 19794-2
+  AuthService -> FraudDetector: Verify device
+  FraudDetector --> AuthService: Risk score
+end
+
+group AC3: Fraud Detection
+  AuthService -> FraudDetector: Submit transaction
+  FraudDetector --> AuthService: Score 82
+  AuthService -> CoreBanking: BLOCK transfer
+  CoreBanking --> MobileApp: <color:purple>[JSON AuthResult]</color>\n<color:green>[Digitally signed]</color>
+  MobileApp --> Customer: "Blocked: Security alert"
+end
+
+== Security Considerations ==
+box "Threat Protection" #FFD5D5
+  note left
+    <b>Security Advisories</b>
+    • Man-in-the-middle protection
+    • Biometric spoof detection
+    • Tamper-proof audit logs
+  end note
+end box
+
+== System Considerations ==
+box "Resilience Patterns" #D5E8FF
+  note left
+    <b>Design Constraints</b>
+    • 30s timeout for auth flows
+    • 3-retry limit on biometric
+    • Fallback to OTP on failure
+  end note
+end box
+@enduml
